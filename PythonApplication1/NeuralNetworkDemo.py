@@ -3,6 +3,8 @@
 '''
 import numpy as np
 import GradientDescent as gd
+import LoadTrainingSet as ld
+
 
 def NNCostFunction(thetas,X,y):
     #取出神经网络层数
@@ -31,21 +33,26 @@ def NNCostFunction(thetas,X,y):
         #每层的计算值
         A[k+1]=a
     
-    print(A)
-    #计算成本
+    #print(A)
+    #计算误差
     #反向传播算法
     delta=np.empty(K,dtype='O')
+    D=np.empty(K,dtype='O')
     for k in np.arange(K-1,-1,-1,np.uint8):
         if k==K-1:
             delta[k]=A[k+1]-y
         else:
             delta[k]=np.dot(delta[k+1],thetas[k+1].T)*gd.sigmoidgradient(np.dot(A[k],thetas[k]))
-    print(delta)
-    print("delta求和")
-    D=np.empty(delta.size,dtype='O')
-    for i in np.arange(delta.size):
-        D[i]=np.sum(delta[i])
-    print(D)
+        #计算每个神经元所有样本的总偏导数
+        D[k]=np.sum(delta[k]*A[k+1],axis=0)
+    #print("delta:%s"%delta)
+    #print("D:%s"%D)
+    total=y*np.log10(A[K])+ (1-y)*np.log10(1-A[K])
+    J=-(np.sum(y*np.log10(A[K])+ (1-y)*np.log10(1-A[K])))/m
+
+    #返回每个神经元的偏导数和成本，进行梯度下降训练
+    return D,J
+
 
 
 
@@ -53,8 +60,35 @@ if __name__   =='__main__':
     theta1=np.ones((3,4))
     theta2=np.ones((4,2))
     thetas=np.array([theta1,theta2])
-    X=np.array([0.4,0.5,0.6]).reshape((1,3))
-    y=np.array([0,1]).reshape((1,2))
+    X=np.array([[0.4,0.5,0.6],
+                [0.1,0.2,0.3]]).reshape((2,3))
+    y=np.array([[0,1],
+                [1,0]]).reshape((2,2))
+
+    images= ld.loadImage()
+    labels=ld.loadLabel()
+
+    m=len(labels)
     
-    NNCostFunction(thetas,X,y)
-    print('1');
+    X_train=images.reshape(m,784)
+    eye=np.eye(10)
+    
+    y_train=np.empty((m,10))
+    for i in np.arange(m):
+        y_train[i]=eye[labels[i]]
+    #均值归一化
+    X_train=(X_train-np.mean(X_train,axis=0))/255
+
+    tempX=X_train[0:100]
+    tempy=y_train[0:100]
+
+
+    theta1=np.random.random((784,785))/100
+    theta2=np.random.random((785,10))/100
+    thetas=np.array([theta1,theta2])
+
+    grad,J=NNCostFunction(thetas,tempX,tempy)
+    print("J:%f"%J)
+    v=gd.nngradientDescent(tempX,tempy,thetas,grad)
+
+    #print('1');
