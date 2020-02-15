@@ -47,9 +47,9 @@ def NNCostFunction(thetas,X,y):
         D[k]=np.sum(delta[k]*A[k+1],axis=0)
     #print("delta:%s"%delta)
     #print("D:%s"%D)
-    total=y*np.log10(A[K])+ (1-y)*np.log10(1-A[K])
+    #total=y*np.log10(A[K])+ (1-y)*np.log10(1-A[K])
     J=-(np.sum(y*np.log10(A[K])+ (1-y)*np.log10(1-A[K])))/m
-
+    D=D/m
     #返回每个神经元的偏导数和成本，进行梯度下降训练
     return D,J
 

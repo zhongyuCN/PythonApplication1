@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>a786a397-5edc-4409-8e79-d3b5441ff049</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>NeuralNetworkDemo.py</StartupFile>
+    <StartupFile>tensorflowDemo.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,6 +31,9 @@
     <Compile Include="NeuralNetworkDemo.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OpenCVDemo.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PythonApplication1.py" />
     <Compile Include="tensorflowDemo.py">
       <SubType>Code</SubType>
@@ -44,10 +47,14 @@
     <Folder Include="Sample\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Sample\one.png" />
+    <Content Include="Sample\origin1.jpg" />
+    <Content Include="Sample\sample1.png" />
     <Content Include="Sample\t10k-images.idx3-ubyte" />
     <Content Include="Sample\t10k-labels.idx1-ubyte" />
     <Content Include="Sample\train-images.idx3-ubyte" />
     <Content Include="Sample\train-labels.idx1-ubyte" />
+    <Content Include="Sample\zero.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

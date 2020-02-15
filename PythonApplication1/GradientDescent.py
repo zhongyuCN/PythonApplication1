@@ -6,7 +6,7 @@ def lrCostFunction(X,y,theta):
 
     H=sigmoid(X,theta)
 def nngradientDescent(X,y,theta,grad):
-    _lambda=0.1
+    _lambda=0.001
     step=100
     J=np.zeros(step)
     temptheta=theta-_lambda*grad
@@ -18,8 +18,10 @@ def nngradientDescent(X,y,theta,grad):
         if i>0:
             if J[i]>J[i-1]:
                 print("梯度上升!..............")
-            else:
+            elif J[i]<J[i-1]:
                 print("梯度下降")
+            else:
+                print("Loss异常!")
     
     return temptheta
 
